@@ -2,15 +2,16 @@ import { useContext } from "react";
 import { MovieContext } from "../../context";
 
 export default function CartDetails({ onClose }) {
-  const { cartData, setCartData } = useContext(MovieContext);
+  const { state, dispatch } = useContext(MovieContext);
 
-  const handleDeleteCart = (e, movieId) => {
+  const handleDeleteCart = (e, movie) => {
     e.preventDefault();
-    console.log("clicked");
-    const filteredItem = cartData.filter((item) => {
-      return item.id !== movieId;
+    dispatch({
+      type: "REMOVE_FROM_CART",
+      payload: {
+        ...movie,
+      },
     });
-    setCartData([...filteredItem]);
   };
 
   return (
@@ -21,10 +22,10 @@ export default function CartDetails({ onClose }) {
             Your Carts
           </h2>
           <div className="space-y-8 lg:space-y-12 max-h-[450px] overflow-auto mb-10 lg:mb-14">
-            {cartData.length === 0 ? (
+            {state.cartData.length === 0 ? (
               <p className="text-3xl">The Cart is empty</p>
             ) : (
-              cartData.map((movie) => (
+              state.cartData.map((movie) => (
                 <div key={movie.id} className="grid grid-cols-[1fr_auto] gap-4">
                   <div className="flex items-center gap-4">
                     <img
@@ -41,13 +42,13 @@ export default function CartDetails({ onClose }) {
                       <p className="max-md:text-xs text-[#575A6E]">
                         {movie.genre}
                       </p>
-                      <span className="max-md:text-xs">$100</span>
+                      <span className="max-md:text-xs">${movie.price}</span>
                     </div>
                   </div>
                   <div className="flex justify-between gap-4 items-center">
                     <button
                       className="bg-[#D42967] rounded-md p-2 md:px-4 inline-flex items-center space-x-2 text-white"
-                      onClick={(e) => handleDeleteCart(e, movie.id)}
+                      onClick={(e) => handleDeleteCart(e, movie)}
                     >
                       <img
                         className="w-5 h-5"
