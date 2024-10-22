@@ -1,9 +1,19 @@
+import MovieList from "./components/cine/MovieList";
+import Footer from "./components/Footer";
+import Header from "./components/Header";
+import Sidebar from "./components/Sidebar";
+
 function App() {
   return (
     <>
-      <h1 className="text-5xl text-green-600 font-bold text-center mt-[100px]">
-        Hello from React + Vite + Tailwind Css
-      </h1>
+      <Header />
+      <main>
+        <div className="container grid lg:grid-cols-[218px_1fr] gap-[3.5rem]">
+          <Sidebar />
+          <MovieList />
+        </div>
+      </main>
+      <Footer />
     </>
   );
 }
